@@ -1,12 +1,12 @@
 package view;
 
-import java.awt.event.MouseListener;
 import java.awt.event.WindowEvent;
 import java.util.ArrayList;
 
 import javax.swing.JFrame;
 
 import controller.CodeListener;
+import controller.CustomMouseListener;
 import gameobject.GameObject;
 import model.QuizModel;
 
@@ -29,13 +29,14 @@ public class ViewContainer {
 		height = frame.getContentPane().getHeight();
 	}
 
-	public void initialize(MouseListener m, CodeListener c, ArrayList<GameObject> o) {
+	public void initialize(CustomMouseListener m, CodeListener c, ArrayList<GameObject> o) {
 		/*
 		 * This adds the MouseListener to the frame and initializes the view, this has
 		 * to happen after the constructor because the model needs to be set up first
 		 * and that requires the size of the screen
 		 */
 		frame.addMouseListener(m);
+		frame.addMouseMotionListener(m);
 		view = new TitleView(title, width, height, c, o);
 	}
 

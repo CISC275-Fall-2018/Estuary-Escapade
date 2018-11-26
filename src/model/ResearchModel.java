@@ -86,17 +86,11 @@ public class ResearchModel extends Model implements GameStateModel {
 		int mouseY = e.getY();
 
 		if (isHolding) {
-			// This moves the caught animal to the mouse click location
-			this.caught.setxPos(mouseX - caught.getxSize() / 2);
-			this.caught.setyPos(mouseY - caught.getySize() / 2);
 			if (camera.clickedOn(mouseX, mouseY)) {
 				this.caught.setxPos(right);
 				this.caught.setyPos(top);
 
-				// TODO Put a boolean in GameObject to make it invisible instead of moving it
-				// off screen
-				this.camera.setxPos(9000);
-				this.camera.setyPos(9000);
+				this.camera.setVisible(false);
 				this.setPhotographed(true);
 				this.setHolding(false);
 
@@ -108,34 +102,29 @@ public class ResearchModel extends Model implements GameStateModel {
 				this.caught.setxPos(right);
 				this.caught.setyPos(top);
 
-				// TODO Put a boolean in GameObject to make it invisible instead of moving it
-				// off screen
-				this.ruler.setxPos(9000);
-				this.ruler.setyPos(9000);
+				this.ruler.setVisible(false);
 				this.setMeasured(true);
 				this.setHolding(false);
 
 				if (this.isMeasured() && this.isPhotographed()) {
 					doneResearching();
 				}
-
 			}
-
 		} else {
 			if (caught.clickedOn(mouseX, mouseY)) {
 				setHolding(true);
-				// TODO Put a boolean in GameObject to make it invisible (or remove it) instead
-				// of moving it off screen
-				this.caught.setxPos(9000);
-				this.caught.setyPos(9000);
-
 			}
 		}
 	}
 
+	public void mouseMoved(int mouseX, int mouseY) {
+		if (isHolding) {
+			this.caught.setxPos(mouseX - caught.getxSize() / 2);
+			this.caught.setyPos(mouseY - caught.getySize() / 2);
+		}
+	}
+
 	private void doneResearching() {
-		this.caught.setxPos(0);
-		this.caught.setyPos(0);
 		goBack.researched.add(caught);
 		getListener().codeEmitted(Code.NEXT);
 	}
